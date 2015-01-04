@@ -1,4 +1,4 @@
-class Select < Command
+class Select < FlagCommand
   INPUT = {names: TList.new(TString.new), pipe: TPipe.new(TAnyStruct.new)} # stub input type
 
   def input

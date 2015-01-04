@@ -47,6 +47,10 @@ class TAny
   def self.descendants
     ObjectSpace.each_object(::Class).select{|kls| kls < self}
   end
+
+  def instantiate
+    raise TypeError, "#{self.class.name} cannot be instantiated"
+  end
 end
 
 class TType < TAny
@@ -72,6 +76,10 @@ end
 
 class TNil < TType
   REQ = NilClass
+
+  def instantiate
+    nil
+  end
 end
 
 class TPipe < TType
@@ -90,6 +98,10 @@ class TPipe < TType
   def validate(v)
     super(v)
     raise TypeError, "#{v.kind.inspect} is not a #{@kind.inspect}" unless @kind <= v.kind
+  end
+
+  def instantiate
+    Pipe.new(@kind)
   end
 end
 
@@ -201,7 +213,7 @@ class TInteger < TType
   REQ = Integer
 end
 
-class RawCommand
+class Command
   attr_reader :manifest, :args, :arg, :argtypes
 
   INPUT = {}
@@ -243,7 +255,7 @@ class RawCommand
   end
 end
 
-class Command < RawCommand
+class FlagCommand < Command
   FLAGS = {}
 
   def initialize(flags, *args)
@@ -273,7 +285,7 @@ if $PROGRAM_NAME == __FILE__
   p sel.input
   p sel.output
   puts "OK"
-  cpy = Copy.new({}, [], Pipe.new(TStruct.new({:rss => TString.new})))
+  cpy = Copy.new(sel.output.instantiate)
   p cpy.input
   p cpy.output
   p cpy.arg
