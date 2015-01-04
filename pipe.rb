@@ -12,4 +12,10 @@ class Pipe
   def to_s
     inspect
   end
+
+  def << x
+  end
+
+  def >> x
+  end
 end
