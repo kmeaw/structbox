@@ -214,7 +214,7 @@ class TInteger < TType
 end
 
 class Command
-  attr_reader :manifest, :args, :arg, :argtypes
+  attr_reader :manifest, :args, :arg, :argtypes # FIXME: debug only
 
   INPUT = {}
   OUTPUT = TNil.new

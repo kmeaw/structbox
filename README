@@ -1,0 +1,14 @@
+Typed function call checker.
+
+Values have (are instances of) types.
+Functions map values of the input (argument) type to values of the output type.
+Partial order (<=, subtype) is defined on types. Each type is it's own subtype.
+Type can check (validate) if a value belongs to that type.
+Some types are parametric - such types are distinct unless a certian condition is met.
+During the pipeline construction, type checker runs the validation procedure for
+each function which takes argument values and produces function's input (manifest)
+and output types. Then arguments are validated by the manifest.
+Some types can be instantiated (converted to corresponding values) to advance the
+type checker to the next function.
+Pipe is a special parametric type which values are not allowed
+to be processed during the type checking.
